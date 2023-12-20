@@ -1,0 +1,13 @@
+.newsCollection {
+  overflow: hidden;
+
+  .newsCollectionImg {
+    transition: all 0.4s ease;
+  }
+
+  :hover {
+    .newsCollectionImg {
+      transform: scale(1.2);
+    }
+  }
+}
