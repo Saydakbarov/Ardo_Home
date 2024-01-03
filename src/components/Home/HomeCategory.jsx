@@ -241,7 +241,7 @@ export default function HomeCategory() {
       <Box sx={{ textAlign: "end" }}>
         <Button variant="outlined" sx={{ mt: 4, mr: 12 }}>
           <Link
-            to="https://ardotex.netlify.app"
+            to="https://ardotex.uz/"
             target="blank"
             style={{ textDecoration: "none", color: "blue" }}
           >

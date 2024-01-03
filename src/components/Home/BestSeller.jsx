@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import ProductsCard from "./ProductCard";
+import ProductBox from "../Products/ProductBox";
 
 export default function BestSeller() {
   return (
@@ -11,7 +11,7 @@ export default function BestSeller() {
         Our Products
       </Typography>
 
-      <ProductsCard />
+      <ProductBox />
     </Box>
   );
 }
