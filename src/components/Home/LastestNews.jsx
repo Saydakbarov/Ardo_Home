@@ -8,7 +8,7 @@ export default function LastestNews() {
       <Box
         sx={{
           backgroundImage:
-            "url('https://wpbingosite.com/wordpress/furety/wp-content/uploads/2023/05/back.jpg')",
+            "url('/img/back.jpg')",
           minHeight: "400px",
           backgroundPosition: "100%",
           mt: 10,
