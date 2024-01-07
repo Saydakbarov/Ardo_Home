@@ -1,5 +1,4 @@
-import axios from "../utils/axios"
-
+import axios from "../utils/axios";
 
 // ARDOHOME
 
@@ -35,12 +34,15 @@ export const getHomeSubcategories = async () =>
 
 // SECONDSUBCATEGORIES
 
-export const getHomeSecondsubcategories = async () =>
+export const getHomeSecondsubcategories = async (id) =>
   axios
-    .get("furniture/second-subcategories")
+    .get("furniture/second-subcategories", {
+      params: {
+        ...(id && {subcategoryId : id})
+      }
+    })
     .then((res) => res.data)
     .catch((err) => err);
-
 
 // BRANDS
 
@@ -56,7 +58,6 @@ export const getHomeBrands = async ({ limit, offset }) => {
     .catch((err) => err);
 };
 
-
 //  PRODUCTS
 
 export const getHomeProducts = async ({ limit, offset }) =>
@@ -65,10 +66,7 @@ export const getHomeProducts = async ({ limit, offset }) =>
       params: {
         limit,
         offset,
-      },
-      headers: {
-        token: localStorage.getItem("token"),
-      },
+      }
     })
     .then((res) => res.data)
     .catch((err) => err);
@@ -85,6 +83,12 @@ export const postHomeFilteredProducts = async ({ params, body }) => {
   }
 };
 
+export const getHomeSingleProduct = async (id) =>
+  axios
+    .get(`furniture/product/${id}`)
+    .then((res) => res.data)
+    .catch((err) => err);
+
 
 // NEWS
 
@@ -100,5 +104,18 @@ export const getHomeNews = async ({ limit, offset }) => {
     .catch((err) => err);
 };
 
-
 // ARDOHOME
+
+export const getTexPartners = async () => {
+  return axios
+    .get("tex/partners/list")
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+export const getTexNumbers = async () => {
+  return axios
+    .get("tex/phone/list")
+    .then((res) => res.data)
+    .catch((err) => err);
+};

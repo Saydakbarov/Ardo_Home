@@ -1,11 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   getHomeBrands,
   getHomeCategories,
   getHomeNews,
   getHomeProducts,
   getHomeSecondsubcategories,
+  getHomeSingleProduct,
   getHomeSubCategoriesById,
   getHomeSubcategories,
+  getTexNumbers,
+  getTexPartners,
 } from "./data.fn";
 
 // ARDOHOME
@@ -23,15 +27,16 @@ export const useHomeSubcategories = () =>
 export const useHomeSubCategoriesById = (id) =>
   useQuery({
     queryFn: () => getHomeSubCategoriesById(id),
-    queryKey: ["home/subcategoriesById"],
+    queryKey: ["home/subcategoriesById", id],
+    enabled: !!id
   });
 
 //  SECONDSUBCATEGORIES
 
-export const useHomeSecondsubcategories = () =>
+export const useHomeSecondsubcategories = (id = "") =>
   useQuery({
-    queryFn: getHomeSecondsubcategories,
-    queryKey: ["home/secondsubcategories"],
+    queryFn: () => getHomeSecondsubcategories(id),
+    queryKey: ["home/secondsubcategories", id],
   });
 
 //  BRANDS
@@ -52,4 +57,17 @@ export const useHomeProducts = (params) =>
     queryKey: ["home/products"],
   });
 
+
+  export const useHomeSingleProduct = (id) => useQuery({
+    queryFn: () => getHomeSingleProduct(id),
+    queryKey: [`home/products/${id}`],
+    enabled: !!id
+  })
+
 // ARDOHOME
+
+export const useTexPartners = () =>
+  useQuery({ queryFn: getTexPartners, queryKey: ["tex/partners"] });
+
+export const useTexNumbers = () =>
+  useQuery({ queryFn: getTexNumbers, queryKey: ["tex/numbers"] });

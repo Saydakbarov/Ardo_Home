@@ -3,9 +3,13 @@ import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../logo.png";
+import { useTexNumbers } from "../../data/data.service";
 
 export default function Footer() {
   const navigate = useNavigate();
+
+  const { data: numbers, isLoading } = useTexNumbers();
+
   return (
     <Box
       sx={{
@@ -66,7 +70,11 @@ export default function Footer() {
           <Box sx={{ display: "flex", gap: "30px", justifyContent: "center" }}>
             <Box>
               <Typography sx={{ fontWeight: "bold" }}>Phone Number</Typography>
-              <Typography>+99895 145-10-00</Typography>
+              {numbers?.data?.map((item) => (
+                <Link style={{textDecoration: "none"}}  key={item?.phone_id} to={`tel:${item?.phone_number}`}>
+                  <Typography sx={{textDecoration: "none", color: "black"}} >{item?.phone_number}</Typography>
+                </Link>
+              ))}
             </Box>
           </Box>
         </Grid>

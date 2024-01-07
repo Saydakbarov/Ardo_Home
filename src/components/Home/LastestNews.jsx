@@ -1,8 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import LastestNewsCard from "./LastestNewsCard";
+import { useHomeNews } from "../../data/data.service";
 
 export default function LastestNews() {
+
+
+  const {data, isLoading} = useHomeNews({limit: 10, offset: 0})
+
+  console.log(data);
+
   return (
     <Box>
       <Box
@@ -45,7 +52,7 @@ export default function LastestNews() {
         >
           Lastest News
         </Typography>
-        <LastestNewsCard />
+        <LastestNewsCard data={data?.data ?? []} />
       </Box>
     </Box>
   );

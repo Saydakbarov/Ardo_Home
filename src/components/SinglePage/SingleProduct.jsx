@@ -1,31 +1,45 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import Video4 from "../../video/video4.mp4";
 import SingleBox from "./SingleBox";
 import SingleImageBox from "./SingleImageBox";
 
-export default function SingleProduct() {
+export default function SingleProduct({data}) {
+
+  const [activeImage, setActiveImage] = useState("")
+
+
+  useMemo(() => {
+    if(data) {
+      setActiveImage(data?.data?.product_image_url?.[0])
+    }
+  }, [data])
+
   return (
     <Box>
       <Grid container justifyContent={"center"} gap={4}>
         <Grid item lg={4}>
-          <video
+          <img src={activeImage} style={{ width: "100%", height: "400px", objectFit: "cover", borderRadius: "6px" }} alt="" />
+          {/* <video
             style={{ width: "100%", borderRadius: "6px" }}
             autoPlay
             muted
             loop
           >
             <source src={Video4} type="video/mp4" />
-          </video>
+          </video> */}
 
-          <SingleImageBox />
+          <SingleImageBox data={data}   setActiveImage={setActiveImage} />
         </Grid>
         <Grid item lg={5}>
           <Typography sx={{ fontSize: "50px", fontFamily: "Inter" }}>
-            RETRO BLISS
+            {data?.data?.product_title_uz}
           </Typography>
 
-          <SingleBox text={"Grammage m2"} title={"310 g/m² +/-5%"} />
+          <p dangerouslySetInnerHTML={{__html:  data?.data?.product_model_uz}} className="product_model">
+          </p>
+
+          {/* <SingleBox text={"Grammage m2"} title={"310 g/m² +/-5%"} />
           <SingleBox text={"Composition"} title={"100% Polyester"} />
           <SingleBox text={"Usable width"} title={"min. 140cm"} />
           <SingleBox text={"Martindale Test"} title={"30000-35000"} />
@@ -41,7 +55,7 @@ export default function SingleProduct() {
           <SingleBox
             text={"Thread displacement"}
             title={"3,0-3,6 mm WARP / 2,2-2,6 mm WEFT"}
-          />
+          /> */}
 
           {/* <Button
             variant="outlined"

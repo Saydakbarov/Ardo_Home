@@ -3,7 +3,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 // import content from "../../Locolization/content";
 import NewsProductCard from "./NewsProductCard";
 
-export default function NewsProducts() {
+export default function NewsProducts({data, isLoading}) {
   return (
     <Box
       sx={{
@@ -16,7 +16,7 @@ export default function NewsProducts() {
       <Typography sx={{ fontSize: "40px", textAlign: "center", mt: 4 }}>
         News
       </Typography>
-      <NewsProductCard />
+      <NewsProductCard data={data} isLoading={isLoading} />
     </Box>
   );
 }

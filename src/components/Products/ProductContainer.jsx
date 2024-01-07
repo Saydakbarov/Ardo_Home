@@ -4,17 +4,39 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   Grid,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { CategoryData } from "../../data";
 import ProductBox from "./ProductBox";
 
-export default function ProductContainer() {
+export default function ProductContainer({
+  categories,
+  subcategories,
+  secondsubcategories,
+  brands,
+  category,
+  setCategory,
+  subcategory,
+  setSubcategory,
+  secondsubcategory,
+  setSecondsubcategory,
+  brand,
+  setBrand,
+  search,
+  setSearch,
+  setOffset,
+  data,
+  isLoading,
+}) {
+  const [offsetNum, setOffsetNum] = useState(1);
   return (
     <Box sx={{ mt: 8, p: 2 }}>
       <Box className="globalContainer" sx={{}}>
@@ -37,16 +59,91 @@ export default function ProductContainer() {
             }}
           >
             <Box>
+              <button
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  display: category ? "block" : "none",
+                  border: "none",
+                  background: "none",
+                  marginBottom: "16px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  if (secondsubcategory) {
+                    setSecondsubcategory(null);
+                  } else if (subcategory) {
+                    setSubcategory(null);
+                  } else {
+                    setCategory(null);
+                  }
+                }}
+              >
+                {"< Back"}
+              </button>
               <Typography sx={{ fontSize: "24px", fontWeight: "bold" }}>
-                Category
+                {!category
+                  ? "Categories"
+                  : !subcategory
+                  ? categories?.data?.find((el) => el?.category_id == category)
+                      ?.category_name_uz
+                  : subcategories?.data?.find(
+                      (el) => el?.sub_category_id == subcategory
+                    )?.sub_category_name_uz}
               </Typography>
 
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {CategoryData.map((v, i) => (
+              <Box
+                sx={{
+                  display: !!category ? "none" : "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {categories?.data?.map((v, i) => (
                   <Typography
+                    onClick={() => setCategory(v?.category_id)}
                     sx={{ cursor: "pointer", mt: 1, fontSize: "17px" }}
                   >
-                    {v}
+                    {v?.category_name_uz}
+                  </Typography>
+                ))}
+              </Box>
+              <Box
+                sx={{
+                  display: !!subcategory ? "none" : "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {subcategories?.data?.map((v, i) => (
+                  <Typography
+                    onClick={() => setSubcategory(v?.sub_category_id)}
+                    sx={{ cursor: "pointer", mt: 1, fontSize: "17px" }}
+                  >
+                    {v?.sub_category_name_uz}
+                  </Typography>
+                ))}
+              </Box>
+              <Box
+                sx={{
+                  display: subcategory ? "flex" : "none",
+                  flexDirection: "column",
+                }}
+              >
+                {secondsubcategories?.data?.map((v, i) => (
+                  <Typography
+                    onClick={() =>
+                      setSecondsubcategory(v?.second_sub_category_id)
+                    }
+                    sx={{
+                      cursor: "pointer",
+                      mt: 1,
+                      fontSize: "17px",
+                      textDecoration:
+                        v?.second_sub_category_id == secondsubcategory
+                          ? "underline"
+                          : "none",
+                    }}
+                  >
+                    {v?.second_sub_category_name_uz}
                   </Typography>
                 ))}
               </Box>
@@ -58,7 +155,26 @@ export default function ProductContainer() {
               </Typography>
 
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <FormControlLabel control={<Checkbox />} label="Ardo_Home" />
+                {brands?.data?.map((item) => (
+                  <FormControlLabel
+                    key={item?.brand_id}
+                    control={
+                      <Checkbox
+                        checked={brand?.includes(item?.brand_id)}
+                        onChange={() => {
+                          if (brand?.includes(item?.brand_id)) {
+                            setBrand((prev) =>
+                              prev?.filter((el) => el != item?.brand_id)
+                            );
+                          } else {
+                            setBrand((prev) => [...prev, item?.brand_id]);
+                          }
+                        }}
+                      />
+                    }
+                    label={item?.brand_name}
+                  />
+                ))}
               </Box>
             </Box>
           </Grid>
@@ -76,11 +192,52 @@ export default function ProductContainer() {
           >
             <TextField
               fullWidth
-              id="standard-basic"
               label="Search...."
               variant="standard"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
-            <ProductBox />
+            {isLoading ? (
+              <Typography sx={{ display: "block", textAlign: "center", mt: 3 }}>
+                Loading...
+              </Typography>
+            ) : (
+              <ProductBox data={data} />
+            )}
+            <Stack
+              sx={{
+                mx: "auto",
+                width: "fit-content",
+              }}
+              mt={3}
+              direction={"row"}
+              spacing={2}
+            >
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setOffset((e) => e - 20);
+                  setOffsetNum((e) => e - 1);
+                }}
+                disabled={offsetNum == 1}
+                sx={{ transform: "rotate(180deg)" }}
+              >
+                <NavigateNextIcon />
+              </Button>
+              <Typography style={{ fontSize: "20px" }}>{offsetNum}</Typography>
+              <Button
+                variant="outlined"
+                disabled={data?.length < 20}
+                onClick={() => {
+                  setOffset((e) => e + 20);
+                  setOffsetNum((e) => e + 1);
+                }}
+              >
+                <NavigateNextIcon />
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
       </Box>

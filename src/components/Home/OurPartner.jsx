@@ -8,7 +8,12 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay } from "swiper/modules";
 import { PartnerData } from "../../data";
+import { useTexPartners } from "../../data/data.service";
 export default function OurPartner() {
+
+
+  const {data, isLoading} = useTexPartners()
+
   return (
     <Box sx={{ mt: 8, background: "#E1ECEF", p: 3 }}>
       <Typography
@@ -53,9 +58,9 @@ export default function OurPartner() {
           className="mySwiper"
           // style={{ marginTop: "50px" }}
         >
-          {PartnerData.map((v, i) => (
+          {data?.data?.map((v, i) => (
             <SwiperSlide
-              key={i}
+              key={v?.partner_id}
               style={{
                 width: "140px",
                 height: "100px",
@@ -65,7 +70,7 @@ export default function OurPartner() {
                 lineHeight: "140px",
               }}
             >
-              <img style={{ width: "100px" }} src={v.img} alt="" />
+              <img style={{ width: "100px" }} src={v?.partner_image_link} alt="" />
             </SwiperSlide>
           ))}
         </Swiper>

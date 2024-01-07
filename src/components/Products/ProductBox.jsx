@@ -3,8 +3,9 @@ import React from "react";
 import { BestSellerData } from "../../data";
 
 import "./Style/ProductBox.scss";
+import { Link } from "react-router-dom";
 
-export default function ProductBox() {
+export default function ProductBox({data}) {
   return (
     <Box
       sx={{
@@ -15,29 +16,27 @@ export default function ProductBox() {
         mt: 3,
       }}
     >
-      {BestSellerData.map((v, i) => (
-        <>
-          <div>
+      {data?.map((v, i) => (
+          <div key={v?.product_id} >
             <article class="card">
               <header class="card__thumb">
-                <img src={v.img} />
+                <img  src={v?.product_image_url?.[0]} />
               </header>
 
               <div class="card__body">
                 <h2 class="card__title">
-                  <a href="#">{v.title}</a>
+                  <Link to={"/single/" + v?.product_id}>{v?.product_title_uz}</Link>
                 </h2>
-                <p class="card__description">{v.description}</p>
+                <p class="card__description">{v?.product_desc_uz}</p>
                 <Typography
                   class="card__price"
                   sx={{ color: "red", fontSize: "20px" }}
                 >
-                  Price: {v.price} $
+                  Price: {v?.product_price} $
                 </Typography>
               </div>
             </article>
           </div>
-        </>
       ))}
     </Box>
   );

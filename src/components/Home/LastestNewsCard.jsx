@@ -18,7 +18,7 @@ import "swiper/css/pagination";
 // import { addProduct } from "../../redux/ProductReducer";
 import { LastestNewsCardData } from "../../data";
 
-export default function LastestNewsCard() {
+export default function LastestNewsCard({data}) {
   const [hoverImg, setHoverImg] = useState();
 
   const [id, setId] = useState();
@@ -68,7 +68,7 @@ export default function LastestNewsCard() {
             style={{ paddingBottom: "50px" }}
           >
             <Grid justifyContent={"center"}>
-              {LastestNewsCardData.map((v, i) => (
+              {data.map((v, i) => (
                 <Grid item key={i} sx={{ borderRadius: "6px" }}>
                   <SwiperSlide className="swiperSlideBox">
                     <Box
@@ -81,9 +81,9 @@ export default function LastestNewsCard() {
                         component={"div"}
                         sx={{
                           p: 3,
-                          backgroundImage: `url(${v.img})`,
+                          backgroundImage: `url(${v?.new_img})`,
                           backgroundPosition: "center",
-                          backgroundSize: "100%",
+                          backgroundSize: "cover",
                           height: "340px",
                           backgroundRepeat: "no-repeat",
                         }}
@@ -95,7 +95,7 @@ export default function LastestNewsCard() {
                             alignitems: "center",
                           }}
                         >
-                          <Box
+                          {/* <Box
                             sx={{
                               width: "50px",
                               height: "50px",
@@ -108,7 +108,7 @@ export default function LastestNewsCard() {
                             }}
                           >
                             -{v.percentage}%
-                          </Box>
+                          </Box> */}
                         </Box>
                         {/* <Box className="changeCard" sx={{ p: 2 }}>
                             <Box
@@ -144,7 +144,7 @@ export default function LastestNewsCard() {
                             <Typography
                               sx={{ fontSize: "18px", color: "black" }}
                             >
-                              Decor
+                              {v?.new_title_uz}
                             </Typography>
                             {/* <Rating
                               name="simple-controlled"
